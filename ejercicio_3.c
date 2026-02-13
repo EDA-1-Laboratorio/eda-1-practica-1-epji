@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> // Para la función sleep() en Linux/Mac (usar <windows.h> y Sleep() en Windows)
+#include <windows.h> // Para la función sleep() en Linux/Mac (usar <windows.h> y Sleep() en Windows)
 
 #define FILAS 10
 #define COLS 10
@@ -28,6 +28,8 @@ void imprimirMundo() {
     // Limpia la consola
     // system("clear"); // O system("cls") en Windows
     
+    system("cls");
+
     printf("\nEstado Actual:\n");
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLS; j++) {
@@ -51,6 +53,29 @@ int contarVecinos(int f, int c) {
     //       ... si no es la propia celda (f,c) y está viva, vecinos++ ...
     //    }
     // }
+    for (int i = f - 1; i < f + 1; i++) {
+         for (int j = c - 1; j < c + 1; j++) {
+            if ( i < 0 || i > FILAS - 1) {
+                //Saltamos a la siguiente fila directamente
+                break;
+            }
+
+            else if ( j < 0 || j > COLS - 1 || i == f && j == c) {
+                //Saltar a la siguiente columna
+                continue;
+
+            } 
+            
+            else {
+                //Esta viva la celda?
+                if (mundo[i][j] > 0)
+                    vecinos++;
+
+            }
+
+         }
+
+    }
     
     return vecinos;
 }
@@ -64,17 +89,19 @@ void siguienteGeneracion() {
             if (mundo[i][j] == 1) {
                 // REGLA 1: Soledad (menos de 2 vecinos) -> Muere
                 // REGLA 2: Sobrepoblación (más de 3 vecinos) -> Muere
-                // REGLA 3: Estabilidad (2 o 3 vecinos) -> Vive
-                
-                // TODO: Traducir esto a código if/else asignando a siguiente_mundo[i][j]
                 if (vecinos < 2 || vecinos > 3) 
                     siguiente_mundo[i][j] = 0;
+
+                // REGLA 3: Estabilidad (2 o 3 vecinos) -> Vive
                 else 
                     siguiente_mundo[i][j] = 1;
 
+                // TODO: Traducir esto a código if/else asignando a siguiente_mundo[i][j]
+
             } else {
                 // REGLA 4: Reproducción (exactamente 3 vecinos) -> Nace
-                
+                if (vecinos = 3)
+                    siguiente_mundo[i][j] = 1;
                 // TODO: Completar la lógica para células muertas
             }
         }
@@ -95,10 +122,15 @@ int main() {
     for(int k=0; k<iteraciones; k++) {
         imprimirMundo();
         siguienteGeneracion();
+        Sleep(1);
         // sleep(1); // Pausa para ver la animación
     }
 
     return 0;
 }
 
-// PREGUNTA: ¿Por qué es obligatoria la matriz siguiente_mundo? ¿Qué pasaría si actualizamos directamente sobre mundo?
+// PREGUNTA: ¿Por qué es obligatoria la matriz siguiente_mundo? Porque se necesitan guardar las actualizaciones de cada celda (en el mundo "2") pero sin modificar las celdas actuales (las del mundo "actual").
+
+/* ¿Qué pasaría si actualizamos directamente sobre mundo? Al momento de contar los vecinos, se haria una comprobación erronea ya que no se estarian contando los vecinos que en el siguiente "turno" les tocaria morir 
+y se estarian contando los que en el siguiente "turno" les tocaria nacer, al menos en las primeras comprobaciones, despues de eso solo seria un caos donde las comprobaciones estarian mezcladas entre si, contando y 
+no contando celdas que no deberian estar vivas o en su debido caso muertas*/
