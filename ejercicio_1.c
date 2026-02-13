@@ -57,6 +57,14 @@ void crearMensaje() {
        
     // ... (Tu código aquí) ...
 
+    for(i = 0; i < ren; i++) {
+       for(j = 0; j < col; j++) {
+        escitala[i][j] = texto[k];
+        k++;
+    }
+}
+
+
 
     printf("El texto cifrado (leído de la tira) es:\n");
 
@@ -67,6 +75,14 @@ void crearMensaje() {
        Tip: Ahora el bucle externo debe controlar las columnas y el interno los renglones. */
 
     // ... (Tu código aquí) ...
+
+
+    for(j = 0; j < col; j++) {
+        for(i = 0; i < ren; i++) {
+        printf("%c", escitala[i][j]);
+    }
+}
+
     
     printf("\n");
 }
@@ -96,6 +112,15 @@ void descifrarMensaje() {
 
     // ... (Tu código aquí) ...
 
+    
+    for(j = 0; j < col; j++) {
+        for(i = 0; i < ren; i++) {
+        escitala[i][j] = texto[k];
+        k++;
+    }
+}
+
+
 
     printf("El texto descifrado es:\n");
 
@@ -106,9 +131,24 @@ void descifrarMensaje() {
 
     // ... (Tu código aquí) ...
 
+    for(i = 0; i < ren; i++) {
+        for(j = 0; j < col; j++) {
+            printf("%c", escitala[i][j]);
+    }
+}
+
+
     printf("\n");
 }
 
 // PREGUNTA: En la implementación se una matriz auxiliar de dimensiones ren × col para realizar la transposición. 
 // Si tuvieras una restricción de memoria severa y no pudieras crear esa matriz bidimensional, 
 // ¿qué fórmula matemática utilizarías para imprimir el carácter correcto directamente desde el arreglo original texto[] ?
+//RESPUESTA: En memoria una matriz en C se almacena como:
+// posicion=i*col+j
+//Pero como el cifrado se lee columna por columna, la fórmula quedaria como:  
+//texto[i * col + j]
+//Para el decifrado quedaria como:
+//texto[j * ren + i]
+//La escítala no es más que intercambiar: (i,j)  →  (j,i)
+
