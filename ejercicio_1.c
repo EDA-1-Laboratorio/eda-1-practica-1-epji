@@ -56,6 +56,13 @@ void crearMensaje() {
        Tip: Necesitas recorrer renglones y luego columnas. */
        
     // ... (Tu código aquí) ...
+    
+      if(strlen(texto) != ren * col) {
+        printf("Error: El texto debe tener exactamente %d caracteres.\n", ren * col);
+        return;
+    }
+
+
 
     for(i = 0; i < ren; i++) {
        for(j = 0; j < col; j++) {
@@ -111,6 +118,11 @@ void descifrarMensaje() {
        Debes llenar columna por columna usando el 'texto' cifrado. */
 
     // ... (Tu código aquí) ...
+
+     if(strlen(texto) != ren * col) {
+        printf("Error: El texto debe tener exactamente %d caracteres.\n", ren * col);
+        return;
+    }
 
     
     for(j = 0; j < col; j++) {
